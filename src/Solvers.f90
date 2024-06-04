@@ -68,6 +68,13 @@ contains
                    - alpha*rhs(i, j)                       ! Source term.
       enddo
 
+      ! Update residual
+      if (iteration == 1) then
+        residual(1) = absolute_error
+      else
+        residual = [residual, absolute_error]
+      endif
+
       do concurrent (i=2:grid%nx-1, j=2:grid%ny-1)
           ! Jacobi update.
           u(i, j) = alpha*(up(i+1, j) + up(i-1, j))/dx**2 & ! Derivative in the x-direction.
