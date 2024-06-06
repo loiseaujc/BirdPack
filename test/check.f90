@@ -4,6 +4,7 @@ program Tester
     ! Unit-test utilities.
     use testdrive, only: run_testsuite, new_testsuite, testsuite_type
     use test_jacobi
+    use test_gauss_seidel
     implicit none
 
     ! Unit-test related.
@@ -14,7 +15,8 @@ program Tester
     status = 0
 
     testsuites = [ &
-                   new_testsuite("Jacobi Test Suite", collect_jacobi_testsuite) &
+                   new_testsuite("Jacobi Test Suite", collect_jacobi_testsuite), &
+                   new_testsuite("Gauss-Seidel Test Suite", collect_gauss_seidel_testsuite) &
                  ]
 
    do is = 1, size(testsuites)

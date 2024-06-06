@@ -35,6 +35,7 @@ module BirdPack
   !-------------------------------------
 
   public :: jacobi_solver
+  public :: redblack_gauss_seidel_solver
 
 contains
 
