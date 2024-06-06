@@ -51,8 +51,8 @@ contains
     ! Coefficients.
     real(dp) :: alpha
 
-    associate( dx => grid%dx, dy => grid%dy)
-    iteration = 1 ; up = 0.0_dp
+    associate( dx => grid%dx, dy => grid%dy, nx => grid%nx, ny => grid%ny)
+    iteration = 0 ; up = 0.0_dp
 
     alpha = 2/dx**2 + 2/dy**2 ; alpha = 1.0_dp / alpha
 
@@ -62,7 +62,7 @@ contains
       absolute_error = 0.0_dp
 
       ! Jacobi iteration.
-      do concurrent (i=2:grid%nx-1, j=2:grid%ny-1)
+      do concurrent (i=2:nx-1, j=2:ny-1)
           ! Jacobi update.
           up(i, j) = alpha*(u(i+1, j) + u(i-1, j))/dx**2 & ! Derivative in the x-direction.
                    + alpha*(u(i, j+1) + u(i, j-1))/dy**2 & ! Derivative in the y-direction.
@@ -76,7 +76,7 @@ contains
         residual = [residual, absolute_error]
       endif
 
-      do concurrent (i=2:grid%nx-1, j=2:grid%ny-1)
+      do concurrent (i=2:nx-1, j=2:ny-1)
           ! Jacobi update.
           u(i, j) = alpha*(up(i+1, j) + up(i-1, j))/dx**2 & ! Derivative in the x-direction.
                   + alpha*(up(i, j+1) + up(i, j-1))/dy**2 & ! Derivative in the y-direction.
@@ -138,8 +138,8 @@ contains
     ! Coefficients.
     real(dp) :: alpha
 
-    associate( dx => grid%dx, dy => grid%dy)
-    iteration = 1 ; up = 0.0_dp
+    associate( dx => grid%dx, dy => grid%dy, nx => grid%nx, ny => grid%ny)
+    iteration = 0 ; up = 0.0_dp
 
     alpha = 2/dx**2 + 2/dy**2 ; alpha = 1.0_dp / alpha
 
@@ -149,7 +149,7 @@ contains
       absolute_error = 0.0_dp
 
       ! Red Gauss-Seidel iteration.
-      do concurrent (i=2:grid%nx-1, j=2:grid%ny-1)
+      do concurrent (i=2:nx-1, j=2:ny-1)
         if (mod(i+j, 2) == 0) then
           up = u(i, j)
           ! Gauss-Seidel update.
@@ -162,7 +162,7 @@ contains
       enddo
 
       ! Black Gauss-Seidel iteration.
-      do concurrent (i=2:grid%nx-1, j=2:grid%ny-1)
+      do concurrent (i=2:nx-1, j=2:ny-1)
         if (mod(i+j, 2) == 1) then
           up = u(i, j)
           ! Gauss-Seidel update.
