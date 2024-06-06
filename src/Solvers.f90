@@ -175,7 +175,7 @@ contains
       enddo
 
       ! Update residual time-history.
-      if (iteration == 1) then
+      if (iteration == 0) then
         residual(1) = absolute_error
       else
         residual = [residual, absolute_error]
